@@ -6,9 +6,15 @@ from .adminforms import PostAdminForm
 from .models import Post, Category, Tag
 
 # Register your models here.
+class PostInline(admin.TabularInline):  # StackedInline 样式不同
+    fields = ('title', 'desc')
+    extra = 1       # 控制额外多几个
+    model = Post
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    inlines = [PostInline, ]
     list_display = ('name', 'status', 'is_nav', 'owner', 'created_time')
     fields = ('name', 'status', 'is_nav')
 
