@@ -7,8 +7,10 @@ def post_list(request, category_id=None, tag_id=None):
         category_id=category_id,
         tag_id=tag_id
     )
-    return HttpResponse(content)
+    # return HttpResponse(content)
+    return render(request, 'blog/list.html', context={'name': 'post_list'})
 
 
 def post_detail(request, post_id):
-    return HttpResponse('detail')
+    # return HttpResponse('detail')
+    return render(request, 'blog/detail.html', context={'name': 'post_detail'})
