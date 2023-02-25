@@ -18,14 +18,16 @@ from django.urls import path
 from django.urls import re_path as url
 
 
-from blog.views import PostListView, PostDetailView 
+from blog.views import (
+    IndexView, CategoryView, TagView, PostDetailView 
+)
 from config.views import links
 from .custom_site import custom_site
 
 urlpatterns = [
-    url(r'^$', PostListView.as_view(), name='index'),
-    url(r'^category/(?P<category_id>\d+)/$', PostListView.as_view(), name='category-list'),
-    url(r'^tag/(?P<tag_id>\d+)/$', PostListView.as_view(), name='tag-list'),
+    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^category/(?P<category_id>\d+)/$', CategoryView.as_view(), name='category-list'),
+    url(r'^tag/(?P<tag_id>\d+)/$', TagView.as_view(), name='tag-list'),
     url(r'^post/(?P<pk>\d+).html$', PostDetailView.as_view(), name='post-detail'),
     url(r'^links/$', links, name='links'),
     path('super_admin/', admin.site.urls, name='super-admin'),
