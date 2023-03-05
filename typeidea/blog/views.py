@@ -1,6 +1,7 @@
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 from config.models import SideBar
 from .models import Post, Tag, Category
@@ -103,3 +104,20 @@ class PostDetailView(CommonViewMixin, DetailView):
     context_object_name = 'post'
     pk_url_kwarg = 'post_id'
     template_name = 'blog/detail.html'
+
+
+class SearchView(IndexView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'keyword': self.request.GET.get('keyward', '')
+        })
+        return context
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        keyword = self.request.GET.get('keyword')
+        if not keyword:
+            return queryset
+        return queryset.filter(Q(title__icontains=keyword) | Q(desc__contains=keyword))
