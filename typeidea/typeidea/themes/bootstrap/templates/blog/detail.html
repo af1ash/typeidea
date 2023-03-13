@@ -1,33 +1,90 @@
-{% if post %}
-<h1>{{ post.title }}</h1>
-<div>
-    <span>分类：{{ post.category.name }}</span>
-    <span>作者：{{ post.owner.username }}</span>
-</div>
-<hr/>
-<p>
-    {{ post.content }}
-</p>
-<hr/>
-<div class="comment">
-    <form class="form-group" action="/comment/" method="post">
-        {% csrf_token %}
-        <input name="target" type="hidden" value="{{ request.path }}"/>
-        {{ comment_form }}
-        <input type="submit" value="写好了!">
-    </form>
-    <ul class="list-group">
-        {% for comment in comment_list %}
-        <li class="nickname">
-            <div class="nickname">
-                <a href="{{ comment.website }}">{{ comment.nickname }}</a>
-                    <span>{{ comment.created_time }}</span>
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>{% block title %}首页{% endblock %} - typeidea 博客系统</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <style>
+            .post {
+                margin-bottom: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container head">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">首页</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        {% for cate in navs %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'category-list' cate.id %}">
+                                    {{ cate.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <form class="form-inline" action="/search/" method="GET">
+                        <input class="form-control" type="search" name="keyword" placeholder="Search" aria-label="Search" value="{{ keyword}}">
+                        <button class="btn btn-outline-success" type="submit">搜索</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+        <div class="container main">
+
+            {% if post %}
+            <h1>{{ post.title }}</h1>
+            <div>
+                <span>分类：{{ post.category.name }}</span>
+                <span>作者：{{ post.owner.username }}</span>
             </div>
-            <div class="comment-content">
-                {{ comment.content}}
+            <hr/>
+            <p>
+                {{ post.content }}
+            </p>
+            <hr/>
+            <div class="comment">
+                <form class="form-group" action="/comment/" method="post">
+                    {% csrf_token %}
+                    <input name="target" type="hidden" value="{{ request.path }}"/>
+                    {{ comment_form }}
+                    <input type="submit" value="写好了!">
+                </form>
+                <ul class="list-group">
+                    {% for comment in comment_list %}
+                    <li class="nickname">
+                        <div class="nickname">
+                            <a href="{{ comment.website }}">{{ comment.nickname }}</a>
+                                <span>{{ comment.created_time }}</span>
+                        </div>
+                        <div class="comment-content">
+                            {{ comment.content}}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
+            {% endif %}
+        </div>
+        <footer class="footer">
+            {% block footer %}
+            <div class="container">
+                <hr/>
+                <nav class="nav category">
+                    {% for cate in categories %}
+                    <a href="{% url 'category-list' cate.id %}" class="nav-link">
+                        {{ cate.name }}
+                    </a>
+                    {% endfor %}
+                </nav>
+            </div>
+            <div class="container power">
+                <span class="text-muted">Power by Typeidea</span>
+            </div>
+            {% endblock %}
+        </footer>
+    </body>
+</html>
