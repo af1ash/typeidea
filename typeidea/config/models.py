@@ -32,7 +32,8 @@ class Link(models.Model):
         verbose_name = verbose_name_plural = '友链'
 
     def __str__(self) -> str:
-        return self.name
+        return self.title
+
 
 class SideBar(models.Model):
     STATUS_SHOW = 1
