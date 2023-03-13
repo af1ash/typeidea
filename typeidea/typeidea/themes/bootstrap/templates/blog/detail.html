@@ -10,7 +10,7 @@
 </p>
 <hr/>
 <div class="comment">
-    <form class="form-group" action="/comment" method="post">
+    <form class="form-group" action="/comment/" method="post">
         {% csrf_token %}
         <input name="target" type="hidden" value="{{ request.path }}"/>
         {{ comment_form }}
