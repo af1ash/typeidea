@@ -23,13 +23,14 @@ from rest_framework.documentation import include_docs_urls
 from blog.views import (
     IndexView, CategoryView, TagView, PostDetailView, SearchView, AuthorView
 )
-from blog.apis import PostViewSet
+from blog.apis import PostViewSet, CategoryViewSet
 from config.views import LinkListView
 from comment.views import CommentView
 from .custom_site import custom_site
 
 router = DefaultRouter()
 router.register(r'post', PostViewSet, basename='api-post')
+router.register(r'category', CategoryViewSet, basename='api-category')
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
