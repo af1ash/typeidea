@@ -1,0 +1,5 @@
+# -i https://mirrors.aliyun.com/pypi/simple
+cython!=0.29.20
+setuptools
+wheel
+
