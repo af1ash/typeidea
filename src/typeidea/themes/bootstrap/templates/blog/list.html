@@ -34,13 +34,42 @@
         </div>
     </div>
     {% endfor %}
-    {% if page_obj %}
+
+    <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
-            <a href="?page= {{ page_obj.previous_page_number }}">上一页</a>
+        <li class="page-item">
+            <a href="?page=1" class="page-link">&laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a href="" class="page-link">&laquo; first</a>
+        </li>
+        <li class="page-item disabled">
+            <a href="" class="page-link">previous</a>
+        </li>
         {% endif %}
-            Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+        <li class="page-item">
+            <a class="page-link">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </a>
+        </li>
         {% if page_obj.has_next %}
-            <a href="?page= {{ page_obj.next_page_number }}">下一页</a>
+        <li class="page-item">
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
+        </li>
+        <li class="page-item">
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">last &raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a href="" class="page-link">next</a>
+        </li>
+        <li class="page-item disabled">
+            <a href="" class="page-link">last &raquo;</a>
+        </li>
         {% endif %}
-    {% endif %}
+    </ul>
 {% endblock %}
