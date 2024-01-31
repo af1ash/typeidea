@@ -21,7 +21,12 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
 from blog.views import (
-    IndexView, CategoryView, TagView, PostDetailView, SearchView, AuthorView
+    IndexView,
+    CategoryView,
+    TagView,
+    PostDetailView,
+    SearchView,
+    AuthorView,
 )
 from blog.apis import PostViewSet, CategoryViewSet
 from config.views import LinkListView
@@ -29,20 +34,28 @@ from comment.views import CommentView
 from .custom_site import custom_site
 
 router = DefaultRouter()
-router.register(r'post', PostViewSet, basename='api-post')
-router.register(r'category', CategoryViewSet, basename='api-category')
+router.register(r"post", PostViewSet, basename="api-post")
+router.register(r"category", CategoryViewSet, basename="api-category")
 
 urlpatterns = [
-    url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^category/(?P<category_id>\d+)/$', CategoryView.as_view(), name='category-list'),
-    url(r'^tag/(?P<tag_id>\d+)/$', TagView.as_view(), name='tag-list'),
-    url(r'^post/(?P<post_id>\d+).html$', PostDetailView.as_view(), name='post-detail'),
-    url(r'^links/$', LinkListView.as_view(), name='links'),
-    url(r'^search/$', SearchView.as_view(), name='search'),
-    url(r'^author/(?P<owner_id>\d+)/$', AuthorView.as_view(), name='author'),
-    url(r'^comment/$', CommentView.as_view(), name='comment'),
-    path('super_admin/', admin.site.urls, name='super-admin'),
-    path('admin/', custom_site.urls, name='admin'),
-    url(r'^api/', include(router.urls)),
-    url(r'^api/docs/', include_docs_urls(title='typeidea apis')),
+    url(r"^$", IndexView.as_view(), name="index"),
+    url(
+        r"^category/(?P<category_id>\d+)/$",
+        CategoryView.as_view(),
+        name="category-list",
+    ),
+    url(r"^tag/(?P<tag_id>\d+)/$", TagView.as_view(), name="tag-list"),
+    url(
+        r"^post/(?P<post_id>\d+).html$",
+        PostDetailView.as_view(),
+        name="post-detail",
+    ),
+    url(r"^links/$", LinkListView.as_view(), name="links"),
+    url(r"^search/$", SearchView.as_view(), name="search"),
+    url(r"^author/(?P<owner_id>\d+)/$", AuthorView.as_view(), name="author"),
+    url(r"^comment/$", CommentView.as_view(), name="comment"),
+    path("super_admin/", admin.site.urls, name="super-admin"),
+    path("admin/", custom_site.urls, name="admin"),
+    url(r"^api/", include(router.urls)),
+    url(r"^api/docs/", include_docs_urls(title="typeidea apis")),
 ]

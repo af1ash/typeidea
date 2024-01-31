@@ -51,7 +51,7 @@ class CommonViewMixin:
 
 class IndexView(CommonViewMixin, ListView):
     queryset = Post.latest_posts()
-    paginate_by = 1
+    paginate_by = 10
     context_object_name = "post_list"
     template_name = "blog/list.html"
 
@@ -88,7 +88,6 @@ class TagView(IndexView):
 
 class PostListView(ListView):
     queryset = Post.latest_posts()
-    paginate_by = 1
     context_object_name = "post_list"
     template_name = "blog/list.html"
 
