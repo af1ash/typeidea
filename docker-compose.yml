@@ -4,7 +4,7 @@ services:
   nginx_app:
     image: nginx
     volumes:
-    - /Users/memect/Workspace/finsense/typeidea/conf:/etc/nginx/conf.d/
+    - /Users/typeidea/conf:/etc/nginx/conf.d/
     # 配置文件映射
     # 上传文件本地目录映射
     - data:/opt/apps/typeidea/
