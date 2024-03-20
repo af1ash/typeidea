@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+
 import os
 import sys
 
 
 def main():
     """Run administrative tasks."""
-    profile = os.environ.get("TYPEIDEA_PROFILE", "develop")
+    profile = os.environ.get("EXTRACT_PROFILE", "develop")
     os.environ.setdefault(
-        "DJANGO_SETTINGS_MODULE", "typeidea.settings.%s" % profile
+        "DJANGO_SETTINGS_MODULE", f"typeidea.settings.{profile}"
     )
     try:
         from django.core.management import execute_from_command_line

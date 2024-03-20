@@ -14,23 +14,39 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+
+DATA_DIR = BASE_DIR.joinpath("data")
+LOG_DIR = DATA_DIR.joinpath("logs")
+if not LOG_DIR.exists():
+    os.makedirs(LOG_DIR, exist_ok=True)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = (
-    "django-insecure-@+6-kajldn&(wr0tls4ifc!6)jy=+h1lsj9=9wv@1srz_+x5*e"
+SECRET_KEY = os.getenv(
+    "SECRET_KEY",
+    "django-insecure-@+6-kajldn&(wr0tls4ifc!6)jy=+h1lsj9=9wv@1srz_+x5*e",
 )
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "false") == "true"
 
-ALLOWED_HOSTS = []
+# static file in gunicorn
+WITH_STATIC = os.getenv("WITH_STATIC", "false") == "true"
 
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(" ")
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
 
+DJANGO_SUPERUSER_USERNAME = os.getenv("DJANGO_SUPERUSER_USERNAME", "admin")
+DJANGO_SUPERUSER_PASSWORD = os.getenv("DJANGO_SUPERUSER_PASSWORD", "adminadmin")
+DJANGO_SUPERUSER_EMAIL = os.getenv(
+    "DJANGO_SUPERUSER_EMAIL", "admin@example.com"
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,13 +99,31 @@ WSGI_APPLICATION = "typeidea.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+default_db_type = os.getenv("DEFAULT_DB_TYPE", "")
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.path.join(DATA_DIR, "db.sqlite3"),
     }
 }
 
+if default_db_type == "mysql":
+    mysql_name = os.getenv('MYSQL_NAME', "")
+    mysql_user = os.getenv('MYSQL_USER', "")
+    mysql_password = os.getenv('MYSQL_PASSWORD', "")
+    mysql_host = os.getenv('MYSQL_HOST', "")
+    mysql_port = int(os.getenv('MYSQL_PORT', "3306"))
+
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": mysql_name,
+        'USER': mysql_user,
+        'PASSWORD': mysql_password,
+        'HOST': mysql_host,
+        'PORT': mysql_port,
+        'OPTIONS': {  }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -135,7 +169,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-
+STATIC_ROOT = BASE_DIR.joinpath("build").joinpath("static")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "themes", THEME, "static")]
 
 # Default primary key field type
@@ -148,5 +182,48 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": (
         "rest_framework.pagination.LimitOffsetPagination"
     ),
-    "PAGE_SIZE": 2,
+    "PAGE_SIZE": 10,
+}
+
+MAXBYTES = 1 * 1024 * 1024 * 1024
+BACKUPCOUNT = 3
+maxbytes = int(os.getenv("ROTATING_MAXBYTES", MAXBYTES))
+backupcount = int(os.getenv("ROTATING_BACKUPCOUNT", BACKUPCOUNT))
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "%(asctime)s %(process)d %(threadName)-10s "
+            "%(filename)s:%(lineno)s %(funcName)5s() "
+            "%(levelname)-3s %(message)s",
+        },
+        "simple": {
+            "format": "{asctime} {process} {threadName} {levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "level": "DEBUG",
+            "formatter": "simple",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOG_DIR.joinpath("app.log"),
+            "maxBytes": maxbytes,
+            "backupCount": backupcount,
+        },
+    },
+    "loggers": {
+        "cmd": {"handlers": ["console", "file"], "level": "DEBUG"},
+        "api": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+        },
+    },
 }

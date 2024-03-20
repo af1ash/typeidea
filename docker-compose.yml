@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  nginx_app:
+    image: nginx
+    volumes:
+    - /Users/memect/Workspace/finsense/typeidea/conf:/etc/nginx/conf.d/
+    # 配置文件映射
+    # 上传文件本地目录映射
+    - data:/opt/apps/typeidea/
+    volumes_from:
+    - mytypeidea
+    ports:
+    - 8001:8001
+    environment:
+    - NGINX_PORT=8001
+  mytypeidea:
+    build:
+      context: ./ 
+      dockerfile: ./scripts/latest.Dockerfile
+    image: typeidea:1.0.0
+    container_name: mytypeidea
+    env_file:
+      - .env
+    volumes:
+    - data:/opt/apps/typeidea/
+    # 上传文件本地目录映射
+    ports:
+    - 8000:8000
+
+volumes:
+  data:
