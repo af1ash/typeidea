@@ -46,31 +46,29 @@ RUN mkdir -p /opt/apps/logs
 #考虑到在多数情况下，requirements.txt很少变化，为了加快速度，可以放在前面，使用缓存
 
 #=================extractor ===================
-RUN mkdir -p /opt/apps/pipeline_model
-RUN mkdir -p /opt/apps/pipeline_model/data
-RUN mkdir -p /opt/apps/pipeline_model/data/logs
-RUN mkdir -p /opt/apps/pipeline_model/data/pdfs
+RUN mkdir -p /opt/apps/typeidea
+RUN mkdir -p /opt/apps/typeidea/data
+RUN mkdir -p /opt/apps/typeidea/data/logs
+RUN mkdir -p /opt/apps/typeidea/data/pdfs
 
-WORKDIR /opt/apps/pipeline_model
+WORKDIR /opt/apps/typeidea
 # COPY ./requirements.pypy.txt  ./requirements.pypy.txt
 RUN virtualenv -p python3 python
 
 
 COPY ./requirements.txt ./requirements.txt
-COPY ./requirements.new.txt ./requirements.new.txt
 COPY ./requirements.setup.txt ./requirements.setup.txt
 COPY ./requirements.dev.txt ./requirements.dev.txt
 
 RUN python/bin/pip install -r requirements.setup.txt --no-cache-dir
-RUN python/bin/pip install -r requirements.new.txt --no-cache-dir
+RUN python/bin/pip install -r requirements.txt --no-cache-dir
 
-COPY ./main ./main
+COPY ./src ./src
 COPY ./setup.py ./setup.py
 COPY ./version.py ./version.py
 
 COPY ./themes ./themes
 COPY ./conf ./conf
-COPY ./model ./model
 
 # RUN python/bin/pip wheel -w wheels --no-deps -e .
 # RUN rm -r ./src
@@ -79,8 +77,8 @@ COPY ./model ./model
 # RUN python/bin/pip install memect_dag_server --no-index --find-link=wheels
 
 
-COPY ./scripts/entrypointv4.sh ./scripts/entrypointv4.sh
-RUN chmod +x ./scripts/entrypointv4.sh
+COPY ./scripts/entrypoint.sh ./scripts/entrypoint.sh
+RUN chmod +x ./scripts/entrypoint.sh
 
 #====
-ENTRYPOINT ["./scripts/entrypointv4.sh"]
+ENTRYPOINT ["./scripts/entrypoint.sh"]
