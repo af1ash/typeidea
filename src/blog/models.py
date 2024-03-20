@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Author: lixiaobing
+Date: 2024/03/20
+Desc:
+"""
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -97,8 +104,8 @@ class Post(models.Model):
         verbose_name = verbose_name_plural = "文章"
         ordering = ["-id"]  # 根据id进行降序排列
 
-    # def __str__(self) -> str:
-    #     return self.name
+    def __str__(self) -> str:
+        return self.title
 
     @staticmethod
     def get_by_tag(tag_id):
