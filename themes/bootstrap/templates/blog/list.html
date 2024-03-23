@@ -11,8 +11,9 @@
 {% endblock %}
 
 {% block main %}
-    <div class="card post">
+
     {% for post in post_list %}
+    <div class="card post">
         <div class="card-body">
             <h5 class="card-title">
             <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
@@ -32,44 +33,19 @@
                 {{ post.desc }}<a href="{% url 'post-detail' post.id %}">完整内容</a>
             </p>
         </div>
-    {% endfor %}
     </div>
+    {% endfor %}
 
     <ul class="pagination justify-content-center">
+        {% if page_obj %}
         {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a href="?page=1" class="page-link">&laquo; first</a>
-        </li>
-        <li class="page-item">
-            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">previous</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a href="" class="page-link">&laquo; first</a>
-        </li>
-        <li class="page-item disabled">
-            <a href="" class="page-link">previous</a>
-        </li>
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">上一页</a>
         {% endif %}
-        <li class="page-item">
-            <a class="page-link">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </a>
-        </li>
+        <a class="page-link">Page {{ page_obj.number }} of {{ paginator.num_pages}}</a>
         {% if page_obj.has_next %}
-        <li class="page-item">
-            <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
-        </li>
-        <li class="page-item">
-            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">last &raquo;</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a href="" class="page-link">next</a>
-        </li>
-        <li class="page-item disabled">
-            <a href="" class="page-link">last &raquo;</a>
-        </li>
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">下一页</a>
         {% endif %}
+        {% endif %}
+
     </ul>
 {% endblock %}

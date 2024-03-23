@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>首页 - typeidea 博客系统</title>
+        <title>{% block title %}首页{% endblock %} - typeidea 博客系统</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no">
         <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.css">
@@ -26,7 +26,7 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
+                    <form class="form-inline my-2 my-lg-0" method="GET">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
@@ -40,47 +40,17 @@
         <div class="container main">
             <div class="row">
                 <div class="col-9 post-list">
-                    <!-- {% block main %}
-                    {% endblock %} -->
-                    <div class="card post">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="#">这里是标题</a></h5>
-                            <span class="card-link">作者<a href="#">小兵</a></span>
-                            <span class="card-link">分类:<a href="#">python</a></span>
-                            <span class="card-link">标签:<a href="#">python</a><a href="#">django</a></span>
-                            <p class="card-text"> 文章内容<a href="#">完整内容</a> </p>
-                        </div>
-                    </div>
-                    <div class="card post">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="#">这里是标题</a></h5>
-                            <span class="card-link">作者<a href="#">小兵</a></span>
-                            <span class="card-link">分类:<a href="#">python</a></span>
-                            <span class="card-link">标签:<a href="#">python</a><a href="#">django</a></span>
-                            <p class="card-text"> 文章内容<a href="#">完整内容</a> </p>
-                        </div>
-                    </div>
-                    <div class="card post">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="#">这里是标题</a></h5>
-                            <span class="card-link">作者<a href="#">小兵</a></span>
-                            <span class="card-link">分类:<a href="#">python</a></span>
-                            <span class="card-link">标签:<a href="#">python</a><a href="#">django</a></span>
-                            <p class="card-text"> 文章内容<a href="#">完整内容</a> </p>
-                        </div>
-                    </div>
-                    <a href="?page=0">上一页</a>
-                    Page 1 of 1.
-                    <a href="?page=2">下一页</a>
+                    {% block main %}
+                    {% endblock %}
                 </div>
                 <div class="col-3">
-                    <div class="card sidebar">
+                    <!-- <div class="card sidebar">
                         <div class="card-body">
                             <h4 class="card-title">关于博主</h4>
                             <p>网名：af1ash 多年python工程师</p>
                         </div>
-                    </div>
-                    <!-- {% block sidebar %}
+                    </div> -->
+                    {% block sidebar %}
                         {% for sidebar in sidebars %}
                         <div class="card sidebar">
                             <div class="card-body">
@@ -91,31 +61,26 @@
                             </div>
                         </div>
                         {% endfor %}
-                    {% endblock %} -->
+                    {% endblock %}
                 </div>
             </div>
         </div>
         <footer class="footer">
-            <!-- {% block footer %} -->
+            {% block footer %}
             <div class="container">
                 <hr/>
                 <nav class="nav category">
-                    <a href="#" class="nav-link">读书</a>
-                    <a href="#" class="nav-link">看报</a>
-                    <a href="#" class="nav-link">喝茶</a>
-                </nav>
-                <!-- <nav class="nav category">
                     {% for cate in categories %}
                     <a href="{% url 'category-list' cate.id %}" class="nav-link">
                         {{ cate.name }}
                     </a>
                     {% endfor %}
-                </nav> -->
+                </nav>
             </div>
             <div class="container power">
                 <span class="text-muted">Power by Typeidea</span>
             </div>
-            <!-- {% endblock %} -->
+            {% endblock %}
         </footer>
     </body>
 </html>
