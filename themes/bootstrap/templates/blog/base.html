@@ -26,8 +26,8 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <form class="form-inline my-2 my-lg-0" method="GET">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="form-inline my-2 my-lg-0" method="GET" action="/search/">
+                        <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="{{ keyword }}">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
@@ -44,12 +44,6 @@
                     {% endblock %}
                 </div>
                 <div class="col-3">
-                    <!-- <div class="card sidebar">
-                        <div class="card-body">
-                            <h4 class="card-title">关于博主</h4>
-                            <p>网名：af1ash 多年python工程师</p>
-                        </div>
-                    </div> -->
                     {% block sidebar %}
                         {% for sidebar in sidebars %}
                         <div class="card sidebar">
