@@ -5,6 +5,7 @@ Author: lixiaobing
 Date: 2024/03/20
 Desc:
 """
+import mistune
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -84,6 +85,9 @@ class Post(models.Model):
     content = models.TextField(
         verbose_name="正文", help_text="正文必须是MarkDown格式"
     )
+    content_html = models.TextField(
+        verbose_name="正文html代码", blank=True, editable=False
+    )
     status = models.PositiveIntegerField(
         default=STATUS_NORMAL, choices=STATUS_ITEMS, verbose_name="状态"
     )
@@ -106,6 +110,10 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    def save(self, *args, **kwargs):
+        self.content_html = mistune.markdown(self.content)
+        super().save(*args, **kwargs)
 
     @staticmethod
     def get_by_tag(tag_id):
