@@ -17,6 +17,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 DATA_DIR = BASE_DIR.joinpath("data")
+if not DATA_DIR.exists():
+    os.makedirs(DATA_DIR, exist_ok=True)
 LOG_DIR = DATA_DIR.joinpath("logs")
 if not LOG_DIR.exists():
     os.makedirs(LOG_DIR, exist_ok=True)
