@@ -1,9 +1,19 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Author: lixiaobing
+Date: 2024/03/25
+Desc:
+"""
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import Post, Category
 
 # Create your tests here.
-class PostTestCase(TestCase):
+
+class SimpleTest(TestCase):
+
     def setUp(self):
         test_user = User.objects.create(
             first_name='tester'
@@ -20,7 +30,23 @@ class PostTestCase(TestCase):
             owner=test_user
         )
 
-    def test_animals_can_speak(self):
-        """Animals that can speak are correctly identified"""
+    def test_get_post_data(self):
+        """ Post data """
         lion = Post.objects.get(title="post1")
         self.assertEqual(lion.desc, 'test post')
+
+    def test_admin(self):
+        response = self.client.get("/admin")
+        self.assertEqual(response.status_code, 301)
+
+    def test_super_admin(self):
+        response = self.client.get("/super_admin")
+        self.assertEqual(response.status_code, 301)
+
+    def test_index(self):
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_detail(self):
+        response = self.client.get("/post/1.html")
+        self.assertEqual(response.status_code, 200)
