@@ -7,7 +7,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    profile = os.environ.get("EXTRACT_PROFILE", "develop")
+    profile = os.environ.get("PROFILE", "develop")
     os.environ.setdefault(
         "DJANGO_SETTINGS_MODULE", f"typeidea.settings.{profile}"
     )

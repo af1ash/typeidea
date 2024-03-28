@@ -8,16 +8,11 @@ https://docs.djangoproject.com/en/4.1/howto/deployment/asgi/
 """
 
 import os
-
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'typeidea.settings')
-
-
 from django.contrib.staticfiles.handlers import StaticFilesHandler
 from django.core.asgi import get_asgi_application
 from django.conf import settings
 
-profile = os.environ.get("EXTRACT_PROFILE", "develop")
+profile = os.environ.get("PROFILE", "develop")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"typeidea.settings.{profile}")
 
 # When in production you never, ever put gunicorn in front. 

@@ -13,7 +13,7 @@ from django.contrib.staticfiles.handlers import StaticFilesHandler
 from django.core.wsgi import get_wsgi_application
 from django.conf import settings
 
-profile = os.environ.get("EXTRACT_PROFILE", "develop")
+profile = os.environ.get("PROFILE", "develop")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", f"typeidea.settings.{profile}")
 
 # When in production you never, ever put gunicorn in front. 
