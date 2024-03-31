@@ -56,26 +56,24 @@
                             </div>
                         </div>
                         {% endfor %}
+                        <hr/>
+                        <div class="card sidebar">
+                            <div class="card-body">
+                                <h4 class="card-title">分类</h4>
+                                {% for cate in categories %}
+                                <nav class="nav category flex-column">
+                                    <a href="{% url 'category-list' cate.id %}">
+                                        {{ cate.name }}
+                                    </a>
+                                </nav>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <hr/>
+                        <span class="text-muted">Power by Typeidea</span>
                     {% endblock %}
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            {% block footer %}
-            <div class="container">
-                <hr/>
-                <nav class="nav category">
-                    {% for cate in categories %}
-                    <a href="{% url 'category-list' cate.id %}" class="nav-link">
-                        {{ cate.name }}
-                    </a>
-                    {% endfor %}
-                </nav>
-            </div>
-            <div class="container power">
-                <span class="text-muted">Power by Typeidea</span>
-            </div>
-            {% endblock %}
-        </footer>
     </body>
 </html>
