@@ -3,3 +3,7 @@ djangorestframework
 coreapi
 pyyaml
 mistune
+
+# postgresql
+psycopg
+psycopg_binary
