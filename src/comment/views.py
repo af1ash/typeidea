@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Author: lixiaobing
+Date: 2024/03/31
+Desc:
+"""
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 

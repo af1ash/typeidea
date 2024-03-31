@@ -57,5 +57,5 @@ urlpatterns = [
     path("super_admin/", admin.site.urls, name="super-admin"),
     path("admin/", custom_site.urls, name="admin"),
     url(r"^api/", include(router.urls)),
-    url(r"^api/docs/", include_docs_urls(title="typeidea apis")),
+    url(r"^docs/", include_docs_urls(title="typeidea apis")),
 ]

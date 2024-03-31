@@ -1,11 +1,17 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Author: lixiaobing
+Date: 2024/03/31
+Desc:
+"""
 from django.contrib import admin
 
-from typeidea.base_admin import BaseOwnerAdmin
 from typeidea.custom_site import custom_site
 from .models import Comment
+
 
 # Register your models here.
 @admin.register(Comment, site=custom_site)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('target', 'nickname', 'content', 'website', 'created_time')
-
+    list_display = ("target", "nickname", "content", "website", "created_time")
