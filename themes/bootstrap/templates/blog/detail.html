@@ -29,7 +29,7 @@
             {% csrf_token %}
             <input name="target" type="hidden" value="{{ request.path }}"/>
             {{ comment_form }}
-            <input type="submit" value="写好了!">
+            <button type="submit" class="btn btn-info">发表评论</button>
         </form>
         <ul class="list-group">
             {% for comment in comment_list %}
