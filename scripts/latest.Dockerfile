@@ -65,7 +65,6 @@ RUN python/bin/pip install -r requirements.txt --no-cache-dir
 
 COPY ./src ./src
 COPY ./setup.py ./setup.py
-COPY ./version.py ./version.py
 
 COPY ./themes ./themes
 COPY ./conf ./conf

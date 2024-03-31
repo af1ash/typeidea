@@ -2,4 +2,4 @@ django
 djangorestframework
 coreapi
 pyyaml
-minstune
+mistune

@@ -18,7 +18,7 @@ services:
     build:
       context: ./ 
       dockerfile: ./scripts/latest.Dockerfile
-    image: typeidea:1.0.0
+    image: typeidea:latest
     container_name: mytypeidea
     env_file:
       - .env
