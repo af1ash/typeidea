@@ -110,7 +110,23 @@ DATABASES = {
     }
 }
 
-if default_db_type == "mysql":
+if default_db_type == "postgresql":
+    postgresql_name = os.getenv('POSTGRESQL_NAME', "")
+    postgresql_user = os.getenv('POSTGRESQL_USER', "")
+    postgresql_password = os.getenv('POSTGRESQL_PASSWORD', "")
+    postgresql_host = os.getenv('POSTGRESQL_HOST', "")
+    postgresql_port = int(os.getenv('POSTGRESQL_PORT', "3306"))
+
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": postgresql_name,
+        'USER': postgresql_user,
+        'PASSWORD': postgresql_password,
+        'HOST': postgresql_host,
+        'PORT': postgresql_port,
+        'OPTIONS': {  }
+    }
+elif default_db_type == "mysql":
     mysql_name = os.getenv('MYSQL_NAME', "")
     mysql_user = os.getenv('MYSQL_USER', "")
     mysql_password = os.getenv('MYSQL_PASSWORD', "")
