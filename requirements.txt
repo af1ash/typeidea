@@ -3,6 +3,8 @@ djangorestframework
 coreapi
 pyyaml
 mistune
+gunicorn
+gevent
 
 # postgresql
 psycopg
