@@ -16,10 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import re_path as url
+from django.contrib.sitemaps import views as sitemap_views
+
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
+from blog.rss import LatestPostFeed
+from blog.sitemap import PostSitemap
 from blog.views import (
     IndexView,
     CategoryView,
@@ -58,4 +62,10 @@ urlpatterns = [
     path("admin/", custom_site.urls, name="admin"),
     url(r"^api/", include(router.urls)),
     url(r"^docs/", include_docs_urls(title="typeidea apis")),
+    url(r"^rss|feed/", LatestPostFeed(), name="rss"),
+    url(
+        r"^sitemap\.xml$",
+        sitemap_views.sitemap,
+        {"sitemaps": {"posts": PostSitemap}},
+    ),
 ]
